@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LightFund Group | Fleefund & ROIBet Global Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .glow-effect { animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen">
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl font-black tracking-wider text-emerald-400">LIGHTFUND <span class="text-cyan-400">GROUP</span></span>
+                <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded border border-emerald-500/20">CFG Powered</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-xs text-slate-400">CFG Treasury Vault</p>
+                    <p class="text-sm font-bold text-emerald-400" id="treasury-val">$1,000,000.00</p>
+                </div>
+                <select id="currency-select" class="bg-slate-800 text-slate-200 text-sm px-3 py-1.5 rounded border border-slate-700 focus:outline-none">
+                    <option value="TZS">TZS (TSh)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="USDT">USDT (₮)</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- COLUMN 1 & 2: FLEEFUND INVESTMENT & 25% CASHBACK VAULT -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-cyan-400 flex items-center gap-2">
+                        <span>🌱</span> Fleefund Micro-Investment Hub
+                    </h2>
+                    <span class="text-xs bg-cyan-500/10 text-cyan-300 px-2.5 py-1 rounded-full">25% Cashback Shield Active</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-6">Wekeza kuanzia TZS 500 au 1,000. Faida yako inatembea kwa sekunde moja kwa moja kupitia CFG Core Engine.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700">
+                        <p class="text-xs text-slate-400">Selected Package</p>
+                        <p class="text-lg font-bold text-white" id="pkg-name">Kuza Start</p>
+                        <p class="text-xs text-emerald-400 mt-1">0.5% Daily ROI</p>
+                    </div>
+                    <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700">
+                        <p class="text-xs text-slate-400">Active Principal</p>
+                        <p class="text-lg font-bold text-emerald-400" id="display-principal">10,000 TZS</p>
+                    </div>
+                    <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700 glow-effect">
+                        <p class="text-xs text-slate-400">Live Yield Ticker</p>
+                        <p class="text-lg font-bold text-cyan-300" id="live-ticker">+0.00000 TZS</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="investNow()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-emerald-600/20">Weka Mtaji Mpya</button>
+                    <button onclick="withdrawYield()" class="px-6 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-3 rounded-xl transition border border-slate-700">Toa Faida</button>
+                </div>
+            </div>
+
+            <!-- ROIBET FAST-ROUND STAKING ENGINE -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-gradient-to-l from-amber-500/20 to-transparent w-48 h-full pointer-events-none"></div>
+                
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-amber-400 flex items-center gap-2">
+                        <span>⚡</span> ROIBet / LightBet Fast Staking
+                    </h2>
+                    <span class="text-xs bg-amber-500/10 text-amber-300 px-2.5 py-1 rounded-full border border-amber-500/20">Round Timer: <span id="timer">59</span>s</span>
+                </div>
+                <p class="text-sm text-slate-400 mb-6">Chagua dau lako dogo (Witiri ya 3x hadi 31x). Kampuni inachukua 30% hakika, 45% inarudi kwa washindi, na 25% inarudi kwenye Fleefund Vault yako kama Cashback!</p>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-2">Chagua Dau Lako (Micro-Stake)</label>
+                        <div class="grid grid-cols-5 gap-2" id="stake-buttons">
+                            <button onclick="selectStake(500)" class="stake-btn bg-slate-800 hover:bg-amber-600/30 border border-slate-700 py-2 rounded-lg text-sm font-bold transition">500</button>
+                            <button onclick="selectStake(1000)" class="stake-btn bg-amber-600 text-white border border-amber-500 py-2 rounded-lg text-sm font-bold transition">1,000</button>
+                            <button onclick="selectStake(2000)" class="stake-btn bg-slate-800 hover:bg-amber-600/30 border border-slate-700 py-2 rounded-lg text-sm font-bold transition">2,000</button>
+                            <button onclick="selectStake(5000)" class="stake-btn bg-slate-800 hover:bg-amber-600/30 border border-slate-700 py-2 rounded-lg text-sm font-bold transition">5,000</button>
+                            <button onclick="selectStake(10000)" class="stake-btn bg-slate-800 hover:bg-amber-600/30 border border-slate-700 py-2 rounded-lg text-sm font-bold transition">10,000</button>
+                        </div>
+                    </div>
+
+                    <button onclick="placeROIBet()" class="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-amber-600/25 transition">Weka Dau la Witiri (Sasa)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUMN 3: LIVE ACTIVITY & HOUSE METRICS -->
+        <div class="space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2"><span>📊</span> CFG House & Pool Status</h3>
+                <div class="space-y-4 text-sm">
+                    <div class="flex justify-between border-b border-slate-800 pb-3">
+                        <span class="text-slate-400">House Cut Revenue (30%)</span>
+                        <span class="font-bold text-emerald-400" id="house-revenue">TZS 0</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-800 pb-3">
+                        <span class="text-slate-400">Rollover Jackpot Pool</span>
+                        <span class="font-bold text-amber-400">TZS 124,500</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-800 pb-3">
+                        <span class="text-slate-400">Active Cashback Shield</span>
+                        <span class="font-bold text-cyan-400">25% Secured</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <h3 class="text-base font-bold text-white mb-3">⚡ Live Activity Feed</h3>
+                <div class="space-y-3 text-xs text-slate-300" id="activity-log">
+                    <p class="bg-slate-800/50 p-2.5 rounded border border-slate-800">🚀 Mfumo umezinduliwa salama chini ya LightFund Group.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        let currentStake = 1000;
+        let accumulatedYield = 0;
+        let houseTotal = 0;
+
+        function selectStake(amount) {
+            currentStake = amount;
+            document.querySelectorAll('.stake-btn').forEach(btn => btn.classList.remove('bg-amber-600', 'text-white', 'border-amber-500'));
+            event.target.classList.add('bg-amber-600', 'text-white', 'border-amber-500');
+        }
+
+        function investNow() {
+            alert(`Uwekezaji wa TZS ${currentStake.toLocaleString()} umeanza kuzalisha kwenye Fleefund Vault!`);
+        }
+
+        function withdrawYield() {
+            alert(`Faida ya TZS ${accumulatedYield.toFixed(2)} imehamishwa kwenda kwenye akaunti yako.`);
+            accumulatedYield = 0;
+        }
+
+        function placeROIBet() {
+            const multiOptions = [3, 5, 7, 9, 11, 15, 27, 31];
+            const hitMulti = multiOptions[Math.floor(Math.random() * multiOptions.length)];
+            const isWin = Math.random() > 0.4; // 60% chance for demo
+
+            const logDiv = document.getElementById('activity-log');
+            const p = document.createElement('p');
+            p.className = "p-2.5 rounded border text-xs";
+
+            if(isWin) {
+                const payout = currentStake * hitMulti;
+                p.classList.add('bg-emerald-950/40', 'border-emerald-800/50', 'text-emerald-300');
+                p.innerHTML = `🎉 Umeshinda Witiri ya <strong>${hitMulti}x</strong>! Umepokea <strong>TZS ${payout.toLocaleString()}</strong>.`;
+            } else {
+                const cashback = currentStake * 0.25;
+                houseTotal += (currentStake * 0.30);
+                document.getElementById('house-revenue').innerText = `TZS ${houseTotal.toLocaleString()}`;
+                p.classList.add('bg-cyan-950/40', 'border-cyan-800/50', 'text-cyan-300');
+                p.innerHTML = `🛡️ Haukushinda. TZS ${cashback.toLocaleString()} (25% Cashback) imewekwa Fleefund Vault!`;
+            }
+
+            logDiv.prepend(p);
+        }
+
+        // Live Ticker Simulation per millisecond
+        setInterval(() => {
+            accumulatedYield += 0.00142;
+            document.getElementById('live-ticker').innerText = `+${accumulatedYield.toFixed(5)} TZS`;
+        }, 100);
+
+        // Timer Countdown
+        let timeLeft = 59;
+        setInterval(() => {
+            timeLeft--;
+            if(timeLeft <= 0) timeLeft = 59;
+            document.getElementById('timer').innerText = timeLeft;
+        }, 1000);
+    </script>
+</body>
+</html>
